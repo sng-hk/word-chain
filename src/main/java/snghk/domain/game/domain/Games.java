@@ -1,14 +1,12 @@
-package snghk.entity;
+package snghk.domain.game.domain;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class Word {
+public class Games {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String word;
-    private String mean;
-    private String example;
+    private int player_id;
 }

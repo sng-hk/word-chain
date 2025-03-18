@@ -1,15 +1,14 @@
-package snghk.entity;
+package snghk.domain.word.domain;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class Contact {
+public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
-    private String subject;
-    private String message;
+    private String word;
+    private String mean;
+    private String example;
 }

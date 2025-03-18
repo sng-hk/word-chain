@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import snghk.entity.Users;
+import snghk.domain.users.domain.Users;
 import snghk.repository.UsersRepository;
 
 import java.util.List;
@@ -24,6 +24,10 @@ public class CustomUserDetailService implements UserDetailsService {
         Users user = usersRepository.findByUsername(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
-        return new User(user.getEmail(), user.getPassword(), authorities);
+        return User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .authorities(authorities)
+                .build();
     }
 }

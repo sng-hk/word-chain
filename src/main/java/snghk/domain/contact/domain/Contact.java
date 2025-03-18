@@ -1,16 +1,15 @@
-package snghk.entity;
+package snghk.domain.contact.domain;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
-
-public class Bookmark {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int word_id;
-    private int user_id;
-    private LocalDate created_at;
+    private String name;
+    private String email;
+    private String subject;
+    private String message;
 }
