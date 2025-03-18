@@ -26,9 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
             // 인증 및 권한 설정
             .authorizeHttpRequests(auth -> auth
-//                    .requestMatchers().permitAll()
-//                .requestMatchers("/home").permitAll() // 보안 URL
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/login", "/signup").permitAll() // 로그인과 회원가입은 인증 없이 접근 허용
                 .anyRequest().authenticated() // 그 외 요청은 인증 필요
             )
 
@@ -39,6 +37,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //            .csrf(csrf -> csrf.disable())  // CSRF 비활성화
             // 로그인 방식 설정
             .formLogin(form -> form
+                    .usernameParameter("email")
+                    .passwordParameter("password")
                             .defaultSuccessUrl("/")
                     .failureUrl("/login")) // 기본 로그인 폼 사용
             .httpBasic(withDefaults()); // HTTP Basic 인증 사용
