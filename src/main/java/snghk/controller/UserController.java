@@ -21,6 +21,11 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/customLogin")
+    public String loginPage() {
+        return "login";
+    }
+
     @GetMapping("/user-info")
     public String getUserInfo() {
         // SecurityContext에서 인증된 사용자 정보 가져오기
