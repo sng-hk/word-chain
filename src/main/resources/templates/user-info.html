@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+</head>
+<body>
+<h1>회원 정보</h1>
+<div>
+    <p>이메일: <span th:text="${user.email}">사용자 이메일</span></p>
+    <p>역할: <span th:text="${user.role}">사용자 역할</span></p>
+</div>
+
+<!-- 홈페이지로 돌아가는 링크 -->
+<a href="/" th:href="@{/}">홈페이지로 돌아가기</a>
+</body>
+</html>

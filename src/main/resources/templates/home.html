@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>홈페이지</title>
+</head>
+<body>
+<h1>홈페이지</h1>
+
+<!-- 로그인 상태에 따라 버튼 표시/숨기기 -->
+<div th:if="${#authentication.principal == null}">
+    <!-- 로그인 및 회원가입 버튼 (로그인하지 않은 상태일 때) -->
+    <a href="/customLogin">로그인</a>
+    <a href="/signup">회원가입</a>
+</div>
+
+<div th:if="${#authentication.principal != null}">
+    <!-- 로그인된 사용자만 보이는 메뉴 (로그인한 상태일 때) -->
+    <a href="/user-info">내 정보</a>
+    <a href="/logout">로그아웃</a>
+</div>
+</body>
+</html>
