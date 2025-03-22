@@ -8,16 +8,58 @@
 <h1>홈페이지</h1>
 
 <!-- 로그인 상태에 따라 버튼 표시/숨기기 -->
-<div th:if="${#authentication.principal == null}">
-    <!-- 로그인 및 회원가입 버튼 (로그인하지 않은 상태일 때) -->
-    <a href="/customLogin">로그인</a>
+<div id="guestButtons">
+    <a href="/jwtLogin">로그인</a>
     <a href="/signup">회원가입</a>
 </div>
 
-<div th:if="${#authentication.principal != null}">
-    <!-- 로그인된 사용자만 보이는 메뉴 (로그인한 상태일 때) -->
-    <a href="/user-info">내 정보</a>
-    <a href="/logout">로그아웃</a>
+<div id="userButtons" style="display:none;">
+    <a href="/user-info" id="userInfoLink">내 정보</a>
+    <a href="/logout" onclick="logout()">로그아웃</a>
 </div>
+
+<script>
+    // 페이지 로드 시 JWT 토큰이 localStorage에 존재하는지 확인
+    window.onload = function() {
+        const jwtToken = localStorage.getItem('jwtToken'); // localStorage에서 JWT 토큰 가져오기
+
+        if (jwtToken) {
+            // JWT 토큰이 있으면 사용자 로그인 상태로 설정
+            document.getElementById('guestButtons').style.display = 'none';  // 로그인 버튼 숨기기
+            document.getElementById('userButtons').style.display = 'block';  // 내 정보, 로그아웃 버튼 보이기
+
+            // "내 정보" 링크 클릭 시 JWT 토큰을 Authorization 헤더에 포함하여 요청을 보냄
+            document.getElementById('userInfoLink').addEventListener('click', function(event) {
+                event.preventDefault();  // 기본 링크 동작을 막음
+
+                // JWT 토큰을 Authorization 헤더에 포함하여 API 요청 보내기
+                fetch('/user-info', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken  // JWT 토큰을 Authorization 헤더에 포함
+                    }
+                })
+                    .then(response => response.json())  // 응답을 JSON으로 처리
+                    .then(data => {
+                        console.log('User Info:', data);  // 받은 사용자 정보 처리
+                        // 예: 사용자 정보를 화면에 표시하거나 다른 작업을 할 수 있습니다.
+                    })
+                    .catch(error => {
+                        console.error('API 요청 오류:', error);
+                    });
+            });
+        } else {
+            // JWT 토큰이 없으면 로그인 상태가 아님
+            document.getElementById('guestButtons').style.display = 'block'; // 로그인 버튼 보이기
+            document.getElementById('userButtons').style.display = 'none'; // 내 정보, 로그아웃 버튼 숨기기
+        }
+    };
+
+    // 로그아웃 시 localStorage에서 JWT 토큰 제거
+    function logout() {
+        localStorage.removeItem('jwtToken'); // JWT 토큰 삭제
+        window.location.href = "/"; // 홈 페이지로 리디렉션
+    }
+</script>
 </body>
 </html>

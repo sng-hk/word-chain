@@ -3,6 +3,7 @@ package snghk.word_chain.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class UserController {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/customLogin")
+    @GetMapping({"/customLogin", "/jwtLogin"})
     public String loginPage() {
         return "login";
     }
@@ -50,7 +51,9 @@ public class UserController {
 
     // 사용자 정보 페이지
     @GetMapping("/user-info")
-    public String userInfo(Model model, Authentication authentication) {
+    public String userInfo(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 로그인한 사용자 정보 가져오기
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();

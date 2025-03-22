@@ -1,4 +1,4 @@
-package snghk.word_chain.controller.constants;
+package snghk.word_chain.constants;
 
 public final class ApplicationConstants {
 
